@@ -7,10 +7,22 @@
 		<title>reveal.js</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/league.css">
+		<link rel="stylesheet" href="lib/css/animate.min.css">
+
+
+		<!-- Font awesome icons-->
+		<link rel="stylesheet" href="lib/css/font-awesome.css">
+
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<link rel="stylesheet" href="lib/css/animate.min.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
+
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -24,8 +36,257 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+
+				<section >
+
+
+					<h2 class="layer" >Gradle at SAP</h2>
+
+					<p class="layer" >
+						<small>Created by <a href="mail:markus.kohler@gmail.com"><i class="icon-envelope"></i> Markus Kohler </a>
+							<img border="0" align="bottom" width="50"  src="./images/sap-logo.png" alt="SAP">
+						</small>
+					</p>
+				</section>
+
+				<section>
+					<h2>Agenda</h2>
+					<p>Introduction</p>
+					<p>Build tool requirements</p>
+					<p>Migration</p>
+					<p>Next steps</p>
+					<p>Questions?</p>
+				</section>
+				<section>
+					<h2>Introduction</h2>
+					<h3>About me</h3>
+					<h3><img border="0" align="bottom" width="400"  src="./images/sap_successfactors_logo.png" alt="Successfactors"></h3>
+
+				</section>
+
+				<section>
+					<h2>About me</h2>
+					<p>Since October 2017 I'm the Lead Architect for SAP Predictive Maintenance</p>
+					<p>Before I worked for Successfactors on "developer productivity"</p>
+					<p>Responsible for development environments</p>
+					<p>Process and tool improvements </p>
+				</section>
+
+
+
+				<section>
+					<h1>Successfactors</h1>
+				</section>
+
+					<section>
+						<h2>Successfactors</h2>
+						<p>Acquired by SAP in 2011/2012</p>
+						<p>Global provider of cloud-based human capital management (HCM) software</p>
+						<p>Suite integrates onboarding, social business and collaboration tools, a learning management system </p>
+						<p>Performance management, recruiting software, applicant tracking software, succession planning, </p>
+						<p>Talent management, and HR analytics to deliver business strategy alignment, team execution</p>
+					</section>
+
+
+
+				<section>
+					<h2>Some (rough) numbers</h2>
+				</section>
+					<section>
+						<h2>Numbers</h2>
+						<p><strong>40 Million</strong> users (2016)</p>
+						<p>Developed by several hundred developers</p>
+						<p>More than 100000 source code files</p>
+						<p>More than 100 repositories a few of them large</p>
+						<p>New release shipped every 3 months</p>
+						<p>More than 90% on a JVM stack</p>
+					</section>
+
+					<section>
+						<h2>Developer productivity team</h2>
+						<p><strong>Small team working on</strong></p>
+						<p>Development environments</p>
+						<p>Continuous integration</p>
+						<p>Tool and process improvements</p>
+						<p>Ant + Ivy was our build tool</p>
+					</section>
+
+
+
+					<section>
+						<h2>Problems with ant/Ivy</h2>
+						<p>Transitive dependency resolution unusable slow</p>
+						<p>Unreliable "incremental" builds</p>
+						<p><i class="icon-circle-arrow-right"></i>Developers run full rebuilds most of the time</p>
+						<p>I was looking for alternatives (already in 2014)</p>
+					</section>
+
+
+
+
+
+					<section>
+					<h1>Build tool requirements</h1>
+					</section>
+
+					<section>
+						<h2>Our requirements</h2>
+						<p>Migration must be <strong>non-disruptive</strong></p>
+						<p><strong>Reuse</strong> some ant tasks</p>
+						<p>Do not change Project layout</p>
+						<p>Checkout a subset of our components and run a build with one command</p>
+					</section>
+
+					<section>
+						<h2>Our requirements</h2>
+						<p><strong>SPEED</strong></p>
+						<p>Low overhead important for some tasks</p>
+						<p>Change one Javascript file, build and deploy</p>
+						<p>Overhead would be up to 50 seconds</p>
+						<p>Minimize the need for full rebuilds</p>
+						<p><i class="icon-circle-arrow-right"></i> We need reliable compile avoidance</p>
+					</section>
+
+
+					<section>
+						<h2>Compile avoidance,example</h2>
+						<p>Java project A depends on B, which depends on C</p>
+						<p>If only C changes we do not need to compile A</p>
+						<p>If a private method in C changes we do not need to compile B and A</p>
+					</section>
+
+					<section>
+						<h1>Build tools</h1>
+					</section>
+					<section>
+						<h2>Build tools</h2>
+						<p><img class="plain" border="0" align="bottom" width="40"  src="./images/bazel-icon.svg" alt="bazel-icon"> Bazel, was not yet there</p>
+						<p><img class="plain" border="0" align="bottom" width="40"  src="./images/buck.png" alt="buck"> Buck,relatively new</p>
+						<p><img class="plain" border="0" align="bottom" width="40"  src="./images/apache-software-logo.png" alt="apache"> Maven, SAPs standard</p>
+						<p><img class="plain" border="0" align="bottom" width="40"  src="./images/gradle.png" alt="gradle"> Netflix switched to Gradle</p>
+					</section>
+
+					<section>
+						<h1>Maven or Gradle?</h1>
+					</section>
+
+					<section>
+						<h2>Build tools, Maven</h2>
+						<p>Not much of an improvement over ant</p>
+						<p>Compile avoidance, no improvement over ant</p>
+						<p>Rigid build model</p>
+						<p>See also <a href="https://gradle.org/maven-vs-gradle/">maven vs gradle</a></p>
+						<p>We decided to <strong>use Gradle</strong></p>
+					</section>
+
+
+
+				<section>
+					<h2>Convincing management</h2>
+					<p>We've build simple performance monitoring for Ant</p>
+					<p>Persisted all build times into influxdb</p>
+					<p>Put Grafana UI on top of it</p>
+					<p>Estimated a 1 million $ per build minute saved</p>
+					<p>Migrated a few projects(partially) to gradle, with promising results</p>
+					<p><i class="icon-circle-arrow-right"></i>Got management buy-in</p>
+				</section>
+				<section>
+					<h1>Migration</h1>
+				</section>
+
+				<section>
+					<h2>Our build layout</h2>
+					<p><img border="0" align="bottom" width="600"  src="./images/layout.png" alt="apache"></p>
+
+				</section>
+
+				<section>
+					<h2>Our build layout</h2>
+					<p>build-system contains common build scripts</p>
+					<p>Most projects have a minimal build script</p>
+					<p>Compile all projects with one build command</p>
+					<p>Project ivy.xml use variables for version numbers</p>
+					<p>ivy-versions.properties in build-system contains the version numbers</p>
+					<p>Allows us to update versions for shared library centrally</p>
+				</section>
+
+				<section>
+					<h1>Build complexity, one example</h1>
+				</section>
+
+
+				<section>
+					<h2>Reverse dependency check</h2>
+					<p>If B and C depend on A</p>
+					<p>A change to A can break compiling B and C </p>
+					<p>We have a lot of components, so breaks were very relatively frequent</p>
+					<p>We implemented the "reverse dependency check"</p>
+				</section>
+
+				<section>
+					<h2>Reverse dependency check</h2>
+					<p>For each component we have a file in build-system that describes all components depending on the component</p>
+					<p>During the release of a component these "reverse dependency" files are updated</p>
+					<p>The reverse dependency check uses byte code analysis to check whether anything would break</p>
+					<p>An order of magnitude faster then compiling the components</p>
+				</section>
+
+				<section>
+					<h2>Moving from ant to gradle</h2>
+					<p>Luckily our build was 90% standardized</p>
+					<p>Mostly implemented by <strong>one engineer</strong> in a few months </p>
+					<p>All Jenkins jobs were running with ant and gradle for a while</p>
+					<p>Pilot with small number of developers</p>
+
+				</section>
+
+				<section>
+					<h2>Moving from ant to gradle</h2>
+					<p>Worked almost flawlessly from the beginning</p>
+					<p>We had quite a bit of build code in Java, which was easy to port</p>
+					<p>Very good support from gradle engineers</p>
+				</section>
+
+				<section>
+					<h1>Improvements?</h1>
+				</section>
+
+				<section>
+					<h2>Improvements</h2>
+					<p>Overhead for build after small code change improved <strong>10x</strong></p>
+					<p>Developers more often run non-clean builds around 5x</p>
+					<p>Large Release builds 2x faster</p>
+					<p>More reliable build</p>
+					<p><i class="icon-circle-arrow-right"></i>Developers waste less time</p>
+				</section>
+
+				<section>
+					<h2>Improvements</h2>
+					<p>The new build-scan feature is fantastic</p>
+					<p>Reduces support effort</p>
+					<p>Help us to optimize the build further</p>
+				</section>
+
+				<section>
+					<h1>Next steps</h1>
+				</section>
+
+				<section>
+					<h2>Next steps</h2>
+					<p>Use gradle parallel build</p>
+					<p>Use new build cache</p>
+					<p>Optimize memory usage of gradle daemon</p>
+					<p>Migrate other projects to gradle</p>
+				</section>
+
+
+				<section>
+					<h1>THE END</h1>
+					<h3>Questions?</h3>
+
+				</section>
+
+
 			</div>
 		</div>
 
@@ -37,6 +298,7 @@
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				transition: 'convex',
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
@@ -44,6 +306,25 @@
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
 			});
+
+			//all fragments are animated, just add the fragment class by default to a few elements
+			$("p").addClass('fragment')
+			$("blockquote").addClass('fragment')
+			$("h3").addClass('fragment')
+			$("a").addClass('fragment')
+			$.fn.extend({
+				animateCss: function (animationName) {
+					var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+					$(this).addClass('animated ' + animationName).one(animationEnd, function() {
+						$(this).removeClass('animated ' + animationName);
+					});
+
+				}
+			});
+			// Shows the slide number using default formatting
+Reveal.configure({ slideNumber: true });
+
+
 		</script>
 	</body>
 </html>

@@ -95,6 +95,16 @@ body {
 
 .reveal em {
   font-style: italic; }
+  .reveal strong{
+  color: white ;
+    text-shadow: 0px 0px 10px #71e9f4, -1px -1px #000;
+  }
+
+
+  .reveal strong.hot{
+  color: white ;
+    text-shadow: 0px 0px 10px #ff0000, -1px -1px #000;
+  }
 
 .reveal ol,
 .reveal dl,
