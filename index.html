@@ -254,7 +254,7 @@
 				<section>
 					<h2>Improvements</h2>
 					<p>Overhead for build after small code change improved <strong>10x</strong></p>
-					<p>Developers more often run non-clean builds around 5x</p>
+					<p>Developers more often run non-clean builds around, 5x faster than old clean build</p>
 					<p>Large Release builds 2x faster</p>
 					<p>More reliable build</p>
 					<p><i class="icon-circle-arrow-right"></i>Developers waste less time</p>
@@ -283,7 +283,12 @@
 				<section>
 					<h1>THE END</h1>
 					<h3>Questions?</h3>
+				</section>
 
+				<section>
+					<h2>References mentioned</h2>
+					<p><a href="https://dev.to/timkrueger/a-maven-git-monorepo">maven git monorepo</a></p>
+					<p><a href="https://paulhammant.com/2017/01/27/maven-in-a-google-style-monorepo/">Paul Hammant</a> good source for monorepo information type</p>
 				</section>
 
 
@@ -307,20 +312,7 @@
 				]
 			});
 
-			//all fragments are animated, just add the fragment class by default to a few elements
-			$("p").addClass('fragment')
-			$("blockquote").addClass('fragment')
-			$("h3").addClass('fragment')
-			$("a").addClass('fragment')
-			$.fn.extend({
-				animateCss: function (animationName) {
-					var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-					$(this).addClass('animated ' + animationName).one(animationEnd, function() {
-						$(this).removeClass('animated ' + animationName);
-					});
 
-				}
-			});
 			// Shows the slide number using default formatting
 Reveal.configure({ slideNumber: true });
 
